@@ -3,14 +3,16 @@ import MyCalendar from './components/Calendar';
 import { useTranslation } from 'react-i18next';
 import Register from './components/Register';
 import Login from './components/Login';
+import EventForm from './components/EventForm';
 import i18n from './i18n';
 
 const App = () => {
   const { t } = useTranslation();
   const [user, setUser] = useState(null);
+  const [eventDetails, setEventDetails] = useState(null);
 
-  const handleLogin = (username) => {
-    setUser(username);
+  const handleLogin = (userData) => {
+    setUser(userData);
   };
 
   const handleLogout = () => {
@@ -18,13 +20,16 @@ const App = () => {
   };
 
   const changeLanguage = async (lng) => {
-    console.log(`Attempting to change language to: ${lng}`);
     try {
       await i18n.changeLanguage(lng);
-      console.log(`Language changed to: ${lng}`);
     } catch (error) {
       console.error("Error changing language:", error);
     }
+  };
+
+  const handleSelectEvent = (event) => {
+
+    setEventDetails(event);
   };
 
   return (
@@ -32,8 +37,8 @@ const App = () => {
       <h1>{t('welcome')}</h1>
 
       {user ? (
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <span style={{ fontSize: '20px', fontWeight: 'bold' }}>Привет, {user}!</span>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+          <span style={{ fontSize: '20px', fontWeight: 'bold' }}>{t('Hello')}, {user.name}!</span>
           <button onClick={handleLogout}>{t('logout')}</button>
         </div>
       ) : (
@@ -43,7 +48,18 @@ const App = () => {
         </div>
       )}
 
-      <MyCalendar />
+
+      <MyCalendar userid={user ? user.id : null} onSelectEvent={handleSelectEvent} />
+
+
+      {eventDetails && (
+        <EventForm 
+          event={eventDetails} 
+          onAddEvent={() => { setEventDetails(null); }}
+          onClose={() => setEventDetails(null)} 
+          userid={user ? user.id : null}
+        />
+      )}
 
       <div>
         <button onClick={() => changeLanguage('en')}>English</button>

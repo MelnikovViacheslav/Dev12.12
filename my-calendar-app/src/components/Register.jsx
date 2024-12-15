@@ -28,7 +28,7 @@ const Register = ({ onRegister }) => {
       <input 
         type="text" 
         placeholder={t('login')}
-        value={login} 
+        value={login}  
         onChange={(e) => setLogin(e.target.value)} 
         required 
       />

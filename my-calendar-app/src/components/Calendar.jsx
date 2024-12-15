@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
 import { format, parse, startOfWeek, getDay } from 'date-fns';
 import { ru, enUS } from 'date-fns/locale';
@@ -16,23 +16,76 @@ const localizer = dateFnsLocalizer({
   locales,
 });
 
-const MyCalendar = () => {
+const MyCalendar = ({ userid }) => {
   const { t, i18n } = useTranslation();
   const [events, setEvents] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
+
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      if (!userid) return;
+      try {
+        const response = await fetch(`http://localhost/Calendar/events.php?userid=${userid}`);
+        const data = await response.json();
+        
+        if (data.status === "success") {
+          const formattedEvents = data.events.map(event => ({
+            ...event,
+            start: new Date(event.start),
+            end: new Date(event.end),
+          }));
+          setEvents(formattedEvents);
+        } else {
+          console.error(data.message);
+        }
+      } catch (error) {
+        console.error("An error occurred:", error);
+      }
+    };
+
+    fetchEvents();
+  }, [userid]);
 
   const handleSelectSlot = ({ start }) => {
     setSelectedEvent({ start, end: start });
     setShowForm(true);
   };
 
-  const handleAddEvent = (event) => {
-    setEvents((prevEvents) => [...prevEvents, event]);
-    setShowForm(false);
+  const handleAddEvent = async (event) => {
+    if (!userid) {
+      console.error("User not authenticated");
+      return;
+    }
+
+    const newEvent = {
+      ...event,
+      userid,
+    };
+
+    try {
+      const response = await fetch('http://localhost/Calendar/events.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newEvent),
+      });
+
+      const data = await response.json();
+
+      if (data.status === "success") {
+        setEvents((prevEvents) => [...prevEvents, newEvent]);
+      } else {
+        console.error(data.message);
+      }
+
+      setShowForm(false);
+      setSelectedEvent(null);
+
+    } catch (error) {
+      console.error("An error occurred:", error);
+    }
   };
-
-
   const currentLocale = i18n.language === 'ru' ? locales.ru : locales.en;
 
   return (
@@ -80,7 +133,11 @@ const MyCalendar = () => {
         <EventForm 
           event={selectedEvent} 
           onAddEvent={handleAddEvent} 
-          onClose={() => setShowForm(false)} 
+          onClose={() => {
+            setShowForm(false);
+            setSelectedEvent(null);
+          }} 
+          userid={userid}
         />
       )}
     </div>

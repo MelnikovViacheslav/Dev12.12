@@ -1,6 +1,8 @@
 const resources = {
   en: {
     translation: {
+      logout: 'logout',
+      Hello: 'Hello',
       password: 'password',
       calendar: 'Calendar',
       register: 'Register',
@@ -29,6 +31,8 @@ const resources = {
   },
   ru: {
     translation: {
+      logout: 'Выйти',
+      Hello: 'Привет',
       password: 'Пароль',
       calendar: 'Календарь',
       register: 'Регистрация',

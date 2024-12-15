@@ -5,6 +5,7 @@ const Login = ({ onLogin }) => {
   const { t } = useTranslation(); 
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -16,10 +17,12 @@ const Login = ({ onLogin }) => {
     });
     
     const data = await response.json();
-    alert(data.message);
-
-    if (data.success) {
-      onLogin(login);
+    
+    if (data.userid) {
+      onLogin({ id: data.userid, name: login });
+      setError('');
+    } else {
+      setError(data.message || t('loginFailed'));
     }
   };
 
@@ -40,6 +43,7 @@ const Login = ({ onLogin }) => {
         required 
       />
       <button type="submit">{t('login')}</button>
+      {error && <p style={{ color: 'red' }}>{error}</p>}
     </form>
   );
 };
