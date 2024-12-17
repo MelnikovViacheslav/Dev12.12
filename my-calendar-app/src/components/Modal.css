@@ -79,9 +79,8 @@
      color: #fff;
      transition: border-color 0.3s ease;
 }
-
 .form-input:focus {
      outline: none;
      border-color: #4caf50;
-     box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+     box-shadow: 0 0 5px rgba(74, 184, 78, 0.5);
 }

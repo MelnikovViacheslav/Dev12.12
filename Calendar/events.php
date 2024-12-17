@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $data = json_decode(file_get_contents("php://input"), true);
 
-    if (!isset($data['title'], $data['start'], $data['userid'])) {
+    if (!isset($data['title'], $data['start'], $data['userid'])) { 
         echo json_encode(["status" => "error", "message" => "Missing required fields."]);
         exit();
     }
