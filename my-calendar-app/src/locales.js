@@ -1,6 +1,7 @@
 const resources = {
   en: {
     translation: {
+      enterEventDescription: 'enterEventDescription',
       logout: 'logout',
       Hello: 'Hello',
       password: 'password',
@@ -31,6 +32,7 @@ const resources = {
   },
   ru: {
     translation: {
+      enterEventDescription: 'Введите описание события',
       logout: 'Выйти',
       Hello: 'Привет',
       password: 'Пароль',
