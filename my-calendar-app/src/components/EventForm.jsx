@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import './Modal.css';
 
 const EventForm = ({ event, onAddEvent, onClose, userid }) => {
   const { t } = useTranslation();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [start, setStart] = useState(event.start || new Date());
-  const [end, setEnd] = useState(event.end || new Date());
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
 
@@ -18,12 +18,11 @@ const EventForm = ({ event, onAddEvent, onClose, userid }) => {
       return;
     }
 
-    // Создаем новое событие
     const newEvent = {
       title,
       description,
       start,
-      end,
+      end: start,
       userid,
     };
 
@@ -46,8 +45,8 @@ const EventForm = ({ event, onAddEvent, onClose, userid }) => {
         setTitle('');
         setDescription('');
         setStart(new Date());
-        setEnd(new Date());
         setError('');
+        onClose();
       } else {
         setError(data.message || t('eventAddError'));
       }
@@ -59,44 +58,36 @@ const EventForm = ({ event, onAddEvent, onClose, userid }) => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <input 
-          type="text" 
-          value={title} 
-          onChange={(e) => setTitle(e.target.value)} 
-          placeholder={t('enterEventTitle')}
-          required 
-        />
-        <input 
-          type="text" 
-          value={description} 
-          onChange={(e) => setDescription(e.target.value)} 
-          placeholder={t('enterEventDescription')} 
-          required 
-        />
-        
-        <label>{t('startDate')}</label>
-        <input 
-          type="datetime-local"
-          value={start.toISOString().slice(0, 16)}
-          onChange={(e) => setStart(new Date(e.target.value))}
-          required
-        />
-        
-        <label>{t('endDate')}</label>
-        <input 
-          type="datetime-local"
-          value={end.toISOString().slice(0, 16)}
-          onChange={(e) => setEnd(new Date(e.target.value))}
-          required
-        />
-
-        <button type="submit">{t('add')}</button>
-        <button type="button" onClick={onClose}>{t('close')}</button>
-      </form>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
+    <div className="modal-overlay">
+      <div className="modal-content">
+        <form onSubmit={handleSubmit} className="event-form">
+          <h2>{t('NewEvent')}</h2>
+          <input 
+            type="text" 
+            value={title} 
+            onChange={(e) => setTitle(e.target.value)} 
+            placeholder={t('enterEventTitle')}
+            required 
+            className="form-input"
+          />
+          <input 
+            type="text" 
+            value={description} 
+            onChange={(e) => setDescription(e.target.value)} 
+            placeholder={t('enterEventDescription')} 
+            required 
+            className="form-input"
+          />
+          
+          <input type="hidden" value={start.toISOString()} />
+          
+          <button type="submit" className="submit-button">{t('add')}</button>
+          <button type="button" onClick={onClose} className="close-button">{t('close')}</button>
+          
+          {error && <p style={{ color: 'red' }}>{error}</p>}
+          {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
+        </form>
+      </div>
     </div>
   );
 };

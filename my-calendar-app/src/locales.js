@@ -1,7 +1,8 @@
 const resources = {
   en: {
     translation: {
-      enterEventDescription: 'enterEventDescription',
+      enterEventDescription: "Enter event description:",
+      NewEvent: "New Event",
       logout: 'logout',
       Hello: 'Hello',
       password: 'password',
@@ -15,13 +16,15 @@ const resources = {
       week: 'Week',
       day: 'Day',
       agenda: 'Agenda',
-      sun: 'Sun',
-      mon: 'Mon',
-      tue: 'Tue',
-      wed: 'Wed',
-      thu: 'Thu',
-      fri: 'Fri',
-      sat: 'Sat',
+      "daysOfWeek": {
+        "sun": "Sun",
+        "mon": "Mon",
+        "tue": "Tue",
+        "wed": "Wed",
+        "thu": "Thu",
+        "fri": "Fri",
+        "sat": "Sat"
+      },
       today: 'Today',
       back: 'Back', 
       next: 'Next',
@@ -32,7 +35,8 @@ const resources = {
   },
   ru: {
     translation: {
-      enterEventDescription: 'Введите описание события',
+      enterEventDescription: "Введите описание события:",
+      NewEvent: "Новое событие",
       logout: 'Выйти',
       Hello: 'Привет',
       password: 'Пароль',
@@ -46,13 +50,15 @@ const resources = {
       week: 'Неделя',
       day: 'День',
       agenda: 'Повестка дня',
-      sun: 'Вс', 
-      mon: 'Пн', 
-      tue: 'Вт', 
-      wed: 'Ср', 
-      thu: 'Чт', 
-      fri: 'Пт', 
-      sat: 'Сб', 
+      "daysOfWeek": {
+        "sun": "Вс",
+        "mon": "Пн",
+        "tue": "Вт",
+        "wed": "Ср",
+        "thu": "Чт",
+        "fri": "Пт",
+        "sat": "Сб"
+      },
       today: 'Сегодня',
       back: 'Назад',
       next: 'Вперед',

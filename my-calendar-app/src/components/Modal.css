@@ -1,0 +1,87 @@
+:root {
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
+    
+    color-scheme: light dark;
+    color: rgba(255, 255, 255, 0.87);
+    background-color: #242424;
+
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    transform: scale(1.05);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.modal-content {
+    background-color: #1a1a1a;
+    padding: 20px;
+    border-radius: 8px;
+    width: calc(100% - 40px);
+    max-width: 500px;
+    z-index: 1001;
+    animation: slideIn 0.3s ease forwards;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.close-button,
+.submit-button {
+     margin-top: .6em;
+     transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.close-button:hover,
+.submit-button:hover {
+     background-color: rgba(255, 255, 255, 0.1);
+     transform: scale(1.05);
+}
+
+.event-form {
+     display: flex;
+     flex-direction: column;
+}
+
+.form-input {
+     margin-bottom: .6em;
+     padding: .6em;
+     border-radius: .4em;
+     border: none;
+     background-color: #2a2a2a;
+     color: #fff;
+     transition: border-color 0.3s ease;
+}
+
+.form-input:focus {
+     outline: none;
+     border-color: #4caf50;
+     box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+}
