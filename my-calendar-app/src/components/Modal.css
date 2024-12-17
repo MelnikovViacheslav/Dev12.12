@@ -22,14 +22,6 @@
     justify-content: center;
     align-items: center;
     z-index: 1000;
-    opacity: 0;
-    transform: scale(1.05);
-    transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.modal-overlay.active {
-    opacity: 1;
-    transform: scale(1);
 }
 
 .modal-content {
@@ -39,30 +31,14 @@
     width: calc(100% - 40px);
     max-width: 500px;
     z-index: 1001;
-    animation: slideIn 0.3s ease forwards;
 }
 
-@keyframes slideIn {
-    from {
-        transform: translateY(-20px);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
-
-.close-button,
-.submit-button {
-     margin-top: .6em;
-     transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.close-button:hover,
-.submit-button:hover {
-     background-color: rgba(255, 255, 255, 0.1);
-     transform: scale(1.05);
+.close-button {
+     background: none;
+     border: none;
+     font-size: 20px;
+     color: #fff;
+     cursor: pointer;
 }
 
 .event-form {
@@ -77,10 +53,9 @@
      border: none;
      background-color: #2a2a2a;
      color: #fff;
-     transition: border-color 0.3s ease;
 }
-.form-input:focus {
-     outline: none;
-     border-color: #4caf50;
-     box-shadow: 0 0 5px rgba(74, 184, 78, 0.5);
+
+.submit-button,
+.close-button {
+     margin-top: .6em;
 }
