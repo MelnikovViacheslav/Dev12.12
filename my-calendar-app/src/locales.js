@@ -16,7 +16,7 @@ const resources = {
       week: 'Week',
       day: 'Day',
       agenda: 'Agenda',
-      "daysOfWeek": {
+      "weekDaysMessages": {
         "sun": "Sun",
         "mon": "Mon",
         "tue": "Tue",
@@ -50,7 +50,7 @@ const resources = {
       week: 'Неделя',
       day: 'День',
       agenda: 'Повестка дня',
-      "daysOfWeek": {
+      "weekDaysMessages": {
         "sun": "Вс",
         "mon": "Пн",
         "tue": "Вт",

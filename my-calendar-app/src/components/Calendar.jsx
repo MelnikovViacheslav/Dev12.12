@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
-import { format, parse, startOfWeek, getDay } from 'date-fns';
+import { format, parse, startOfWeek, getDay, isSameDay } from 'date-fns';
 import { ru, enUS } from 'date-fns/locale';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import EventForm from './EventForm';
@@ -16,11 +16,13 @@ const localizer = dateFnsLocalizer({
   locales,
 });
 
+
 const MyCalendar = ({ userid }) => {
   const { t, i18n } = useTranslation();
   const [events, setEvents] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
+
 
   const fetchEvents = async () => {
     if (!userid) return;
@@ -50,9 +52,10 @@ const MyCalendar = ({ userid }) => {
 
 
   const handleSelectSlot = ({ start }) => {
-    setSelectedEvent({ start });
+    setSelectedEvent({ start, end: start });
     setShowForm(true);
   };
+
 
   const handleAddEvent = async (event) => {
     if (!userid) {
@@ -86,17 +89,6 @@ const MyCalendar = ({ userid }) => {
     }
   };
 
-
-  const daysOfWeek = {
-    sun: t('daysOfWeek.sun'),
-    mon: t('daysOfWeek.mon'),
-    tue: t('daysOfWeek.tue'),
-    wed: t('daysOfWeek.wed'),
-    thu: t('daysOfWeek.thu'),
-    fri: t('daysOfWeek.fri'),
-    sat: t('daysOfWeek.sat')
-  };
-
   const currentLocale = i18n.language === 'ru' ? locales.ru : locales.en;
 
   return (
@@ -119,13 +111,6 @@ const MyCalendar = ({ userid }) => {
             week: t('week'),
             day: t('day'),
             agenda: t('agenda'),
-            sunday: daysOfWeek.sun,
-            monday: daysOfWeek.mon,
-            tuesday: daysOfWeek.tue,
-            wednesday: daysOfWeek.wed,
-            thursday: daysOfWeek.thu,
-            friday: daysOfWeek.fri,
-            saturday: daysOfWeek.sat,
           }}
           components={{
             toolbar(props) {
@@ -141,6 +126,35 @@ const MyCalendar = ({ userid }) => {
                     <button type="button" onClick={() => props.onView('day')}>{t('day')}</button>
                     <button type="button" onClick={() => props.onView('agenda')}>{t('agenda')}</button>
                   </span>
+                </div>
+              );
+            },
+            month(props) {
+              return (
+                <div className="rbc-month-view">
+                  <div className="rbc-row rbc-month-header">
+                    {weekDaysMessages[i18n.language].map((day, index) => (
+                      <div className="rbc-header" key={index}>
+                        <span role="columnheader">{day}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  {Array.from({ length: props.month.length }, (_, rowIndex) => (
+                    <div className="rbc-month-row" role="rowgroup" key={rowIndex}>
+                      <div className="rbc-row-bg">
+
+                        
+                      </div>
+                      <div className="rbc-row-content" role="row">
+                        {props.month[rowIndex].map((day) => (
+                          <div className="rbc-date-cell" role="cell" key={day.getDate()}>
+                            <button type="button" className="rbc-button-link">{format(day, 'd')}</button>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
                 </div>
               );
             },
